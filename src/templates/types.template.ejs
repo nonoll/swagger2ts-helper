@@ -1,0 +1,10 @@
+import { definitions } from '<%= definitionsRelPath.replace(/(^\.\.\/)/, './').replace(/\.ts$/, '') %>';
+
+
+export namespace <%= namespace %> {
+<% if (definitions && definitions.length) { %>
+<%  for (let i = 0, length = definitions.length; i < length; i++) { %>
+  export type <%= definitions[i].replace(/<|>/g, '') %> = definitions['<%- definitions[i] %>'];
+<%  } %>
+<% } %>
+}
