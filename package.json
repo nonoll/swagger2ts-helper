@@ -1,0 +1,77 @@
+{
+  "name": "@nonoll/swagger2ts-helper",
+  "version": "0.0.1",
+  "description": "use @manifoldco/swagger-to-ts",
+  "main": "./lib/index.js",
+  "bin": {
+    "swagger2ts-helper": "./bin/index.js"
+  },
+  "author": {
+    "name": "nonoll",
+    "email": "hkroh.nonoll@gmail.com",
+    "url": "https://nonoll.github.io/code-snippet"
+  },
+  "scripts": {
+    "start": "npm run build && npm run global",
+    "test": "npm run lint && npm run test:unit",
+    "test:unit": "mocha src/**/*.spec.ts",
+    "lint": "tslint -p . --fix",
+    "build": "npm run clean:some && tsc -p .",
+    "global": "npm i -g --force && swagger2ts-helper",
+    "clean:some": "rm -rf ./lib ./docs",
+    "clean:all": "rm -rf ./node_modules ./package-lock.json ./lib ./docs",
+    "refresh": "npm run clean:all && npm install",
+    "tscov": "tscov --min-coverage 90",
+    "tscov:d": "tscov --details",
+    "publish-package": "npm run build && npm publish",
+    "docs": "typedoc --out docs ./src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nonoll/swagger-to-ts-helper.git"
+  },
+  "keywords": [
+    "swagger-to-ts",
+    "swagger2ts",
+    "swagger-to-ts helepr"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nonoll/swagger-to-ts-helper/issues"
+  },
+  "homepage": "https://github.com/nonoll/swagger-to-ts-helper#readme",
+  "dependencies": {
+    "ejs": "^3.1.3",
+    "figlet": "^1.4.0",
+    "fs-extra": "^9.0.1",
+    "inquirer": "^7.2.0",
+    "kleur": "^4.0.2",
+    "tslib": "^2.0.0"
+  },
+  "devDependencies": {
+    "@liftr/tscov": "^1.4.7",
+    "@manifoldco/swagger-to-ts": "^2.0.0",
+    "@types/bluebird": "^3.5.32",
+    "@types/chai": "^4.2.11",
+    "@types/ejs": "^3.0.4",
+    "@types/figlet": "^1.2.0",
+    "@types/fs-extra": "^9.0.1",
+    "@types/inquirer": "^6.5.0",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^14.0.14",
+    "@types/sinon": "^9.0.0",
+    "@types/sinon-chai": "^3.2.4",
+    "bluebird": "^3.7.2",
+    "chai": "^4.2.0",
+    "cli-step": "^1.0.1",
+    "mocha": "^7.1.1",
+    "mocha-junit-reporter": "^1.23.3",
+    "nyc": "^15.0.1",
+    "sinon": "^9.0.1",
+    "sinon-chai": "^3.5.0",
+    "ts-node": "^8.10.2",
+    "tslint": "^6.1.2",
+    "typedoc": "^0.17.7",
+    "typescript": "^3.9.5"
+  }
+}
