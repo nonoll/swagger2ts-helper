@@ -24,7 +24,7 @@ console.log(
 export const readConfig = async(): Promise<IConfig> => {
   const step1 = steps.advance('Check Configs', 'mag').start();
 
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     const configPath = path.resolve(process.cwd(), CONFIG_FILE_NAME);
     let inputConfig = '';
 
@@ -35,6 +35,27 @@ export const readConfig = async(): Promise<IConfig> => {
     }
 
     const config = Object.assign({}, defaultConfig, inputConfig);
+
+    if (!config.entry.definitions) {
+      step1.error('Check Configs', 'x');
+      console.error('entry.definitions required. e.g: "definitions": "https://petstore.swagger.io/v2/swagger.json"');
+      reject(new Error('entry.definitions required. e.g: "definitions": "https://petstore.swagger.io/v2/swagger.json"'));
+      return;
+    }
+
+    if (!config.output.definitions) {
+      step1.error('Check Configs', 'x');
+      console.error('output.definitions required. e.g: "definitions": "./src/@types/api.definitions.ts"');
+      reject(new Error('output.definitions required. e.g: "definitions": "./src/@types/api.definitions.ts"'));
+      return;
+    }
+
+    if (!config.output.types) {
+      step1.error('Check Configs', 'x');
+      console.error('output.types required. e.g: "types": "./src/@types/api.types.ts"');
+      reject(new Error('output.types required. e.g: "types": "./src/@types/api.types.ts"'));
+      return;
+    }
     config.protocol = config.protocol || config.entry.definitions.startsWith('https://') ? 'https' : 'http';
 
     step1.success('Check Configs', 'white_check_mark');
