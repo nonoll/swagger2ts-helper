@@ -86,3 +86,8 @@ swagger2ts-helper config='./dev-tools/swagger2ts.config.json'
     - definitionsRelPath: `definitions 파일 경로`
     - rawData: `swagger Object`
     - paths: `swagger#paths Object`
+
+## 변환 예
+
+- input: [petstore swagger](https://petstore.swagger.io/v2/swagger.json)
+- output: [output](https://github.com/nonoll/swagger2ts-helper/tree/main/src/%40types)

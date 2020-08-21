@@ -33,5 +33,3 @@ service-worker.js
 docs/
 .nyc_output
 demo/
-src/\@types/api.definitions.ts
-src/\@types/api.types.ts
