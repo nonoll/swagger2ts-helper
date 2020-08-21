@@ -1,0 +1,18 @@
+{
+    "protocol": "https",
+    "entry": {
+        "definitions": "",
+        "response": "",
+        "request": ""
+    },
+    "options": {
+        "wrapper": true,
+        "camelcase": true
+    },
+    "output": {
+        "definitions": "",
+        "response": "",
+        "request": ""
+    },
+    "prettier": {}
+}

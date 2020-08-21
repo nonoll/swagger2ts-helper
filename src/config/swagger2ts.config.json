@@ -2,15 +2,17 @@
   "protocol": "https",
   "entry": {
     "definitions": "",
-    "types": ""
+    "response": "",
+    "request": ""
   },
   "options": {
     "wrapper": true,
     "camelcase": true
   },
   "output": {
-    "namespace": "ISwaggerResponse",
     "definitions": "",
-    "types": ""
-  }
+    "response": "",
+    "request": ""
+  },
+  "prettier": {}
 }
