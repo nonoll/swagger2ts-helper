@@ -4,8 +4,9 @@ import path from 'path';
 import { readFileSync, writeFileSync } from 'fs';
 import defaultConfig from './config/swagger2ts.config.json';
 import swaggerToTS from '@manifoldco/swagger-to-ts';
+import { format } from 'prettier';
 
-import { IConfig, CONFIG_FILE_NAME, CONFIG_DEFAULT_TEMPLATE_PATH } from './types';
+import { IConfig, CONFIG_FILE_NAME, CONFIG_DEFAULT_RESPONSE_TEMPLATE_PATH, CONFIG_DEFAULT_REQUEST_TEMPLATE_PATH } from './types';
 import { SwaggerToTSOptions } from '@manifoldco/swagger-to-ts/dist-types/types';
 import { renderFile } from 'ejs';
 
@@ -14,6 +15,8 @@ const Steps = require('cli-step');
 const totalNumberOfSteps = 4;
 const steps = new Steps(totalNumberOfSteps);
 
+let prettierOptions = {};
+
 console.clear();
 console.log(
   chalk.blue(
@@ -21,11 +24,21 @@ console.log(
   )
 );
 
+const getCliOptions = (name: string): string => {
+  name += '=';
+  const index = process.argv.findIndex((v) => v.startsWith(name));
+  if (process.argv[index]) {
+    return process.argv[index].substring(name.length);
+  } else {
+    return '';
+  }
+}
+
 export const readConfig = async(): Promise<IConfig> => {
   const step1 = steps.advance('Check Configs', 'mag').start();
 
   return new Promise((resolve, reject) => {
-    const configPath = path.resolve(process.cwd(), CONFIG_FILE_NAME);
+    const configPath = getCliOptions('config') || path.resolve(process.cwd(), CONFIG_FILE_NAME);
     let inputConfig = '';
 
     try {
@@ -50,13 +63,22 @@ export const readConfig = async(): Promise<IConfig> => {
       return;
     }
 
-    if (!config.output.types) {
+    if (!config.output.response) {
       step1.error('Check Configs', 'x');
-      console.error('output.types required. e.g: "types": "./src/@types/api.types.ts"');
-      reject(new Error('output.types required. e.g: "types": "./src/@types/api.types.ts"'));
+      console.error('output.response required. e.g: "response": "./src/@types/api.response.ts"');
+      reject(new Error('output.response required. e.g: "response": "./src/@types/api.response.ts"'));
+      return;
+    }
+
+    if (!config.output.request) {
+      step1.error('Check Configs', 'x');
+      console.error('output.request required. e.g: "request": "./src/@types/api.request.ts"');
+      reject(new Error('output.request required. e.g: "request": "./src/@types/api.request.ts"'));
       return;
     }
     config.protocol = config.protocol || config.entry.definitions.startsWith('https://') ? 'https' : 'http';
+
+    prettierOptions = Object.assign({}, config.prettier || {}, { parser: 'typescript' });
 
     step1.success('Check Configs', 'white_check_mark');
 
@@ -110,27 +132,43 @@ export const parseSwaggerToTS = (input: string, { options }: IConfig): Promise<s
 
 export const output = async (definitions: string, rawDefinitions: string, config: IConfig): Promise<boolean> => {
   const step4 = steps.advance('Generate Typescript', 'package').start();
+  const rawData = JSON.parse(rawDefinitions);
   return new Promise(async (resolve, reject) => {
     try {
-      writeFileSync(config.output.definitions, definitions, 'utf-8');
+      writeFileSync(config.output.definitions, format(definitions, prettierOptions), 'utf-8');
   
       const definitionsRelPath = path.relative(
-        path.relative(process.cwd(), config.output.types),
+        path.relative(process.cwd(), config.output.response),
         config.output.definitions
       );
-      const entryPath = (() => {
-        if (config.entry.types) {
-          return path.relative(process.cwd(), config.entry.types);
+      const entryResponsePath = (() => {
+        if (config.entry.response) {
+          return path.relative(process.cwd(), config.entry.response);
         } else {
-          return path.resolve(__dirname, CONFIG_DEFAULT_TEMPLATE_PATH);
+          return path.resolve(__dirname, CONFIG_DEFAULT_RESPONSE_TEMPLATE_PATH);
         }
       })();
-      const rendered = await renderFile(entryPath, {
-        namespace: config.output.namespace,
+      const responseRendered = await renderFile(entryResponsePath, {
         definitionsRelPath,
-        definitions: Object.keys(JSON.parse(rawDefinitions).definitions)
+        definitions: Object.keys(rawData.definitions),
+        rawDefinitions: rawData.definitions,
+        rawData
       });
-      writeFileSync(config.output.types, rendered.replace(/\n\n/g, '\n'), 'utf-8');
+      writeFileSync(config.output.response, format(responseRendered.replace(/\n\n/g, '\n'), prettierOptions), 'utf-8');
+
+      const entryRequestPath = (() => {
+        if (config.entry.response) {
+          return path.relative(process.cwd(), config.entry.request);
+        } else {
+          return path.resolve(__dirname, CONFIG_DEFAULT_REQUEST_TEMPLATE_PATH);
+        }
+      })();
+      const requestRendered = await renderFile(entryRequestPath, {
+        definitionsRelPath,
+        paths: rawData.paths,
+        rawData
+      });
+      writeFileSync(config.output.request, format(requestRendered, prettierOptions), 'utf-8');
   
       step4.success('Generate Typescript', 'white_check_mark');
       resolve(true);

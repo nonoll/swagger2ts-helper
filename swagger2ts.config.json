@@ -2,15 +2,23 @@
   "protocol": "https",
   "entry": {
     "definitions": "https://petstore.swagger.io/v2/swagger.json",
-    "types": "./src/templates/types.template.ejs"
+    "response": "./src/templates/response.template.ejs",
+    "request": "./src/templates/request.template.ejs"
   },
   "options": {
     "wrapper": true,
     "camelcase": true
   },
   "output": {
-    "namespace": "ISwaggerResponse",
     "definitions": "./src/@types/api.definitions.ts",
-    "types": "./src/@types/api.types.ts"
+    "response": "./src/@types/api.response.ts",
+    "request": "./src/@types/api.request.ts"
+  },
+  "prettier": {
+    "printWidth": 100,
+    "proseWrap": "always",
+    "semi": true,
+    "singleQuote": true,
+    "tabWidth": 2
   }
 }

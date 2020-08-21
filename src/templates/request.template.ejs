@@ -1,0 +1,90 @@
+import { definitions } from '<%= definitionsRelPath.replace(/(^\.\.\/)/, './').replace(/\.ts$/, '') %>';
+
+
+export namespace ISwaggerRequest {
+<%
+const sanitizeType = type => {
+  switch (type) {
+    case 'integer':
+      return 'number';
+    case 'string':
+      return 'string';
+    default:
+      return 'unknown';
+  }
+};
+
+const sanitizeDefault = param => {
+  if (param.hasOwnProperty('default')) {
+    switch (typeof param.default) {
+      case 'number':
+        return param.default + ' | ';
+      default:
+        return "'" + param.default + "'" + ' | ';
+    }
+  } else {
+    return '';
+  }
+};
+
+const sanitizeParams = (param, type) => {
+  if (param.in === type) {
+    const { name, required } = param;
+    const type = sanitizeType(param.type);
+    const defaultData = sanitizeDefault(param);
+    return { name, required, type, defaultData };
+  }
+  return null;
+};
+
+for (let pathsKey in paths) {
+  const path = paths[pathsKey];
+  for (let method in path) {
+    const raw = path[method];
+    const inPathParams = (raw.parameters || []).map(param => sanitizeParams(param, 'path')).filter(v => v);
+    const inQuery = (raw.parameters || []).map(param => sanitizeParams(param, 'query')).filter(v => v);
+%>
+  export type <%= raw.operationId %> = {
+    url: '<%= pathsKey %>';
+    method: '<%= method %>';
+<% if (inPathParams && inPathParams.length) { %>
+    inPath: {
+      <%
+        for (let inPathKey in inPathParams) {
+          const inPathParam = inPathParams[inPathKey];
+      %>
+        <%= inPathParam.name %><%- inPathParam.required ? '' : '?'  %>: <%- inPathParam.defaultData %><%- inPathParam.type %>;
+      <% } %>
+    };
+<% } %>
+<% if (inQuery && inQuery.length) { %>
+    params: {
+      <%
+        for (let inQueryKey in inQuery) {
+          const inQueryParam = inQuery[inQueryKey];
+      %>
+        <%= inQueryParam.name %><%- inQueryParam.required ? '' : '?'  %>: <%- inQueryParam.defaultData %><%- inQueryParam.type %>;
+      <% } %>
+    }
+<% } %>
+    responses: {
+      <%
+        for (let status in raw.responses) {
+          const response = raw.responses[status];
+          const responseSchema = response.schema && response.schema['$ref'] ? response.schema['$ref'].replace('#/definitions/', '') : '';
+      %>
+        <%= status %>: 
+          <% if (responseSchema) { %> 
+            definitions['<%- responseSchema %>'];
+          <% } else { %>
+            '<%= response['description'] ? response['description'] : "" %>';
+          <% } %>
+      <% } %>
+    }
+    responseType: '<%- raw.produces.join('|') %>';
+  }
+<%
+  }
+}
+%>
+}

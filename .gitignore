@@ -28,7 +28,6 @@ dist
 service-worker.js
 !*.index.bundle.js
 *.data
-lib/
 
 # Other
 docs/
