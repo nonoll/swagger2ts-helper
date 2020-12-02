@@ -3,11 +3,11 @@ import figlet from 'figlet';
 import path from 'path';
 import { readFileSync, writeFileSync } from 'fs';
 import defaultConfig from './config/swagger2ts.config.json';
-import swaggerToTS from '@manifoldco/swagger-to-ts';
+import swaggerToTS from 'openapi-typescript';
 import { format } from 'prettier';
 
 import { IConfig, CONFIG_FILE_NAME, CONFIG_DEFAULT_RESPONSE_TEMPLATE_PATH, CONFIG_DEFAULT_REQUEST_TEMPLATE_PATH } from './types';
-import { SwaggerToTSOptions } from '@manifoldco/swagger-to-ts/dist-types/types';
+import { SwaggerToTSOptions } from 'openapi-typescript/dist-types/types';
 import { renderFile } from 'ejs';
 
 const Steps = require('cli-step');
@@ -88,6 +88,14 @@ export const readConfig = async(): Promise<IConfig> => {
 
 export const fetchSwaggerJSON = async ({ protocol, entry }: IConfig): Promise<any> => {
   const step2 = steps.advance('Fetching Swagger', 'truck').start();
+
+  if (entry.jsonFile) {
+    return new Promise((resolve, reject) => {
+      const filePath = path.resolve(process.cwd(), entry.jsonFile as string)
+      const output = readFileSync(filePath, 'utf8').replace(/«/g, '<').replace(/»/g, '>');
+      resolve(output);
+    })
+  }
 
   const loader = protocol === 'https' ? require('https') : require('http');
   return new Promise((resolve, reject) => {

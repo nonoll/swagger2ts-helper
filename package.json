@@ -42,7 +42,6 @@
   },
   "homepage": "https://github.com/nonoll/swagger-to-ts-helper#readme",
   "dependencies": {
-    "@manifoldco/swagger-to-ts": "^2.0.0",
     "cli-step": "^1.0.2",
     "ejs": "^3.1.3",
     "figlet": "^1.4.0",
@@ -70,6 +69,7 @@
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.23.3",
     "nyc": "^15.0.1",
+    "openapi-typescript": "^2.4.2",
     "sinon": "^9.0.1",
     "sinon-chai": "^3.5.0",
     "ts-node": "^8.10.2",

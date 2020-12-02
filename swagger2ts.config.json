@@ -3,7 +3,8 @@
   "entry": {
     "definitions": "https://petstore.swagger.io/v2/swagger.json",
     "response": "./src/templates/response.template.ejs",
-    "request": "./src/templates/request.template.ejs"
+    "request": "./src/templates/request.template.ejs",
+    "jsonFile": ""
   },
   "options": {
     "wrapper": true,

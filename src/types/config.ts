@@ -2,6 +2,7 @@ export interface IConfigEntry {
   definitions: string;
   response: string;
   request: string;
+  jsonFile?: string;
 }
 
 export interface IConfigOptions {
