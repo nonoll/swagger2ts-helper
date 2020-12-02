@@ -91,9 +91,18 @@ export const fetchSwaggerJSON = async ({ protocol, entry }: IConfig): Promise<an
 
   if (entry.jsonFile) {
     return new Promise((resolve, reject) => {
-      const filePath = path.resolve(process.cwd(), entry.jsonFile as string)
-      const output = readFileSync(filePath, 'utf8').replace(/«/g, '<').replace(/»/g, '>');
-      resolve(output);
+      try {
+        const filePath = path.resolve(process.cwd(), entry.jsonFile as string)
+        const output = readFileSync(filePath, 'utf8').replace(/«/g, '<').replace(/»/g, '>');
+
+        step2.success('Fetching Swagger', 'white_check_mark');
+
+        resolve(output);
+      } catch (e) {
+        step2.error('Fetching Swagger', 'x');
+        console.log(e);
+        reject(e);
+      }
     })
   }
 
