@@ -186,6 +186,31 @@ export const output = async (definitions: string, rawDefinitions: string, config
         rawData
       });
       writeFileSync(config.output.request, format(requestRendered, prettierOptions), 'utf-8');
+
+      const entryRequestSplitPath = (() => {
+        if (config.entry.requestSplit) {
+          return path.relative(process.cwd(), config.entry.requestSplit);
+        } else {
+          return null;
+        }
+      })();
+
+      if (entryRequestSplitPath) {
+        const paths = rawData.paths;
+        for (let pathsKey in paths) {
+          const path = paths[pathsKey];
+          for (let method in path) {
+            const raw = path[method];
+            const requestRendered = await renderFile(entryRequestSplitPath, {
+              definitionsRelPath,
+              pathsKey,
+              method,
+              raw
+            });
+            writeFileSync(config.output.requestSplit.replace('{{name}}', raw.operationId), format(requestRendered, prettierOptions), 'utf-8');
+          }
+        }
+      }
   
       step4.success('Generate Typescript', 'white_check_mark');
       resolve(true);

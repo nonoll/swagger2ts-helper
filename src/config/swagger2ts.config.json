@@ -3,7 +3,9 @@
   "entry": {
     "definitions": "",
     "response": "",
-    "request": ""
+    "request": "",
+    "jsonFile": "",
+    "requestSplit": ""
   },
   "options": {
     "wrapper": true,
@@ -12,7 +14,8 @@
   "output": {
     "definitions": "",
     "response": "",
-    "request": ""
+    "request": "",
+    "requestSplit": ""
   },
   "prettier": {}
 }

@@ -3,6 +3,7 @@ export interface IConfigEntry {
   response: string;
   request: string;
   jsonFile?: string;
+  requestSplit?: string;
 }
 
 export interface IConfigOptions {
@@ -14,6 +15,7 @@ export interface IConfigOutput {
   definitions: string;
   response: string;
   request: string;
+  requestSplit: string;
 }
 
 export interface IConfig {

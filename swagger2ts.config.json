@@ -4,6 +4,7 @@
     "definitions": "https://petstore.swagger.io/v2/swagger.json",
     "response": "./src/templates/response.template.ejs",
     "request": "./src/templates/request.template.ejs",
+    "requestSplit": "./src/templates/request-split.template.ejs",
     "jsonFile": ""
   },
   "options": {
@@ -13,7 +14,8 @@
   "output": {
     "definitions": "./src/@types/api.definitions.ts",
     "response": "./src/@types/api.response.ts",
-    "request": "./src/@types/api.request.ts"
+    "request": "./src/@types/api.request.ts",
+    "requestSplit": "./src/@types/{{name}}.ts"
   },
   "prettier": {
     "printWidth": 100,
