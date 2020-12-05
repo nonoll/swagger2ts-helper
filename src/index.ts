@@ -174,7 +174,7 @@ export const output = async (definitions: string, rawDefinitions: string, config
       writeFileSync(config.output.response, format(responseRendered.replace(/\n\n/g, '\n'), prettierOptions), 'utf-8');
 
       const entryRequestPath = (() => {
-        if (config.entry.response) {
+        if (config.entry.request) {
           return path.relative(process.cwd(), config.entry.request);
         } else {
           return path.resolve(__dirname, CONFIG_DEFAULT_REQUEST_TEMPLATE_PATH);
