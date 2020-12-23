@@ -4,7 +4,7 @@
   "description": "use openapi-typescript",
   "main": "./index.js",
   "bin": {
-    "@nonoll/swagger2ts-helper": "./index.js"
+    "swagger2ts-helper": "./bin/index.js"
   },
   "author": {
     "name": "nonoll",
