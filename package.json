@@ -1,7 +1,7 @@
 {
   "name": "@nonoll/swagger2ts-helper",
   "version": "0.0.1",
-  "description": "use @manifoldco/swagger-to-ts",
+  "description": "use openapi-typescript",
   "main": "./lib/index.js",
   "bin": {
     "swagger2ts-helper": "./bin/index.js"
@@ -9,7 +9,7 @@
   "author": {
     "name": "nonoll",
     "email": "hkroh.nonoll@gmail.com",
-    "url": "https://nonoll.github.io/code-snippet"
+    "url": "https://nonoll.github.io/swagger2ts-helper"
   },
   "scripts": {
     "start": "npm run build && npm run global",
@@ -34,7 +34,7 @@
   "keywords": [
     "swagger-to-ts",
     "swagger2ts",
-    "swagger-to-ts helepr"
+    "swagger-to-ts helper"
   ],
   "license": "MIT",
   "bugs": {

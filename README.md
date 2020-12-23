@@ -1,6 +1,6 @@
 # swagger2ts-helper
 
-- use [@manifoldco/swagger-to-ts](https://github.com/manifoldco/swagger-to-ts)
+- use [openapi-typescript](https://github.com/drwpow/openapi-typescript)
 - [https://swagger.io/specification/v2/](https://swagger.io/specification/v2/)
 - swagger json 데이터를 typescript 로 변환
 
