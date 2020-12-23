@@ -1,10 +1,10 @@
 {
   "name": "@nonoll/swagger2ts-helper",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "use openapi-typescript",
-  "main": "./lib/index.js",
+  "main": "./index.js",
   "bin": {
-    "swagger2ts-helper": "./bin/index.js"
+    "@nonoll/swagger2ts-helper": "./index.js"
   },
   "author": {
     "name": "nonoll",
