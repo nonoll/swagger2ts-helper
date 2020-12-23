@@ -33,3 +33,5 @@ service-worker.js
 docs/
 .nyc_output
 demo/
+
+lib
