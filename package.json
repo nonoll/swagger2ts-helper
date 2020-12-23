@@ -1,6 +1,6 @@
 {
   "name": "@nonoll/swagger2ts-helper",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "use openapi-typescript",
   "main": "./index.js",
   "bin": {
