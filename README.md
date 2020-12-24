@@ -6,10 +6,10 @@
 
 ## 설치
 
-- npm module 구성 예정
+- [npm module](https://www.npmjs.com/package/@nonoll/swagger2ts-helper)
 
 ```bash
-sudo npm i -g swagger2ts-helper https://github.com/nonoll/swagger2ts-helper.git#main
+npm i @nonoll/swagger2ts-helper -D
 ```
 
 ## 사용
@@ -91,3 +91,28 @@ swagger2ts-helper config='./dev-tools/swagger2ts.config.json'
 
 - input: [petstore swagger](https://petstore.swagger.io/v2/swagger.json)
 - output: [output](https://github.com/nonoll/swagger2ts-helper/tree/main/src/%40types)
+
+## 주의사항
+
+- 정의된 swagger 상에 스펙 규칙이 어긋나는 케이스들이 존재
+- 경우에 따라 swagger json 을 다운 받은 후 전처리( 어긋나는 케이스 보정 ) 진행 필요
+  - 어긋나는 케이스 보정은 파싱시에 에러 메시지를 참고 하여 진행
+  - e.g)
+    ```
+    // before
+    «Map«string,object»»
+    // after
+    «Map«StringObject»»
+    ```
+    ```
+    // before
+    «Map«favorite response»»
+    // after
+    «Map«FavoriteResponse»»
+    ```
+    ```
+    // before
+    "car call": {
+    // after
+    "CarCall": {
+    ```

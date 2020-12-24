@@ -1,6 +1,6 @@
 {
   "name": "@nonoll/swagger2ts-helper",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "use openapi-typescript",
   "main": "./index.js",
   "bin": {
@@ -31,7 +31,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nonoll/swagger-to-ts-helper.git"
+    "url": "git+https://github.com/nonoll/swagger2ts-helper.git"
   },
   "keywords": [
     "swagger-to-ts",
@@ -40,9 +40,9 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nonoll/swagger-to-ts-helper/issues"
+    "url": "https://github.com/nonoll/swagger2ts-helper/issues"
   },
-  "homepage": "https://github.com/nonoll/swagger-to-ts-helper#readme",
+  "homepage": "https://github.com/nonoll/swagger2ts-helper#readme",
   "dependencies": {
     "cli-step": "^1.0.2",
     "ejs": "^3.1.3",
